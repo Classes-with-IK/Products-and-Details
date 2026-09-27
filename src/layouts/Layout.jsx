@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, NavLink, Outlet } from "react-router";
+import useCartStore from "../store/cartStore";
 
 function Icon({ name, size = 18, className = "" }) {
   const paths = {
@@ -21,6 +22,8 @@ function Icon({ name, size = 18, className = "" }) {
 
 function Layout() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const cartItems = useCartStore((state) => state.cartItems);
+  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
   const linkClass = ({ isActive }) =>
     isActive
@@ -56,9 +59,9 @@ function Layout() {
           <div className="flex items-center gap-3 text-slate-500">
             <button aria-label="Search" className="icon-btn"><Icon name="search" /></button>
             <button aria-label="Wishlist" className="icon-btn"><Icon name="heart" /></button>
-            <Link to="/products" aria-label="Shopping bag" className="icon-btn relative">
+            <Link to="/cart" aria-label="Shopping bag" className="icon-btn relative">
               <Icon name="bag" />
-              <span className="absolute -right-1 -top-1 grid h-3.5 w-3.5 place-items-center rounded-full bg-[#c96b55] text-[8px] text-white">0</span>
+              <span className="absolute -right-1 -top-1 grid h-3.5 w-3.5 place-items-center rounded-full bg-[#c96b55] text-[8px] text-white">{cartCount}</span>
             </Link>
             <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden ml-1" aria-label="Menu"><Icon name="menu" size={21} /></button>
           </div>

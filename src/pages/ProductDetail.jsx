@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router";
+import useCartStore from "../store/cartStore";
 
 function Icon({ name, size = 14 }) {
   const path = name === "back"
@@ -14,6 +15,7 @@ function ProductDetail() {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const addToCart = useCartStore((state) => state.addToCart);
 
   useEffect(() => {
     const fetchSingleProduct = async () => {
@@ -62,7 +64,7 @@ function ProductDetail() {
             <div className="border border-slate-100 p-4"><span className="block text-[10px] uppercase tracking-widest text-slate-400">SKU</span><b className="mt-1 block text-slate-700">#{product.id}</b></div>
           </div>
 
-          <button className="mt-8 w-full bg-slate-900 px-7 py-4 text-xs font-bold uppercase tracking-[0.2em] text-white hover:bg-[#c96b55] transition sm:w-auto">Add to cart</button>
+          <button onClick={() => addToCart(product)} className="mt-8 w-full bg-slate-900 px-7 py-4 text-xs font-bold uppercase tracking-[0.2em] text-white hover:bg-[#c96b55] transition sm:w-auto">Add to cart</button>
         </div>
       </article>
     </section>
