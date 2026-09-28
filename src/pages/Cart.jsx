@@ -1,15 +1,25 @@
 import { Link } from "react-router";
 import useCartStore from "../store/cartStore";
+import { useShallow } from "zustand/shallow";
 
 function Cart() {
-  const cartItems = useCartStore((state) => state.cartItems);
-  const updateQuantity = useCartStore((state) => state.updateQuantity);
-  const removeFromCart = useCartStore((state) => state.removeFromCart);
+  // const cartItems = useCartStore((state) => state.cartItems);
+  // const updateQuantity = useCartStore((state) => state.updateQuantity);
+  // const removeFromCart = useCartStore((state) => state.removeFromCart);
 
-  
-  const cartTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  // Object useShallow
+//   const {cartItems, updateQuantity,removeFromCart} = useCartStore(useShallow((state)=>({
+// cartItems:state.cartItems,
+// updateQuantity:state.updateQuantity,
+// removeFromCart:state.removeFromCart
+//   })))
 
-  if (cartItems.length === 0) {
+//Array shallow
+const [cartItems, updateQuantity,removeFromCart]= useCartStore(useShallow((state)=>[state.cartItems,state.updateQuantity,state.removeFromCart]))
+
+ const cartTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+
+if (cartItems.length === 0) {
     return (
       <section className="site-width py-20 text-center">
         <p className="eyebrow">Your cart</p>
