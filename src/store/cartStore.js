@@ -1,6 +1,7 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
-const useCartStore = create((set) => ({
+const useCartStore = create () (persist( (set) => ({
   cartItems: [],
 
  
@@ -45,6 +46,12 @@ const useCartStore = create((set) => ({
     set((state) => ({
       cartItems: state.cartItems.filter((item) => item.id !== id),
     })),
-}));
+}),
+    {
+      name: 'cart-storage'
+    }
+
+)
+);
 
 export default useCartStore;
